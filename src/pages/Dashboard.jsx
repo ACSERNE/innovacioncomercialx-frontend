@@ -1,52 +1,42 @@
 import { useEffect, useState } from "react";
-import { api } from "../services/api";
 
 export default function Dashboard() {
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  const hostname = window.location.hostname;
+  const isGithubPages = hostname.includes("github.io");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      window.location.href = "/login";
+    if (isGithubPages) {
+      // 🌐 Modo DEMO para GitHub Pages
+      setTimeout(() => {
+        setData({
+          ventasHoy: 12,
+          totalDia: 85000,
+          clientes: 7,
+          servicios: 4,
+        });
+      }, 500);
       return;
     }
 
-    api.getProductos(token).then((data) => {
-      setProductos(data);
-      setLoading(false);
-    });
+    // 🔐 Modo real (local / codespaces)
+    fetch(import.meta.env.VITE_API_URL + "/dashboard")
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch(() => setData({ error: true }));
   }, []);
 
-  if (loading) return <p>Cargando...</p>;
+  if (!data) return <div>Cargando...</div>;
 
   return (
     <div>
-      <h2>Dashboard</h2>
-      <h3>Productos disponibles</h3>
+      <h1>Dashboard</h1>
 
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio Unitario</th>
-            <th>Stock</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {productos.map((p) => (
-            <tr key={p.id}>
-              <td>{p.nombre}</td>
-              <td>{p.descripcion}</td>
-              <td>${p.precio_unitario}</td>
-              <td>{p.stock}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <p>Ventas hoy: {data.ventasHoy}</p>
+      <p>Total del día: ${data.totalDia}</p>
+      <p>Clientes atendidos: {data.clientes}</p>
+      <p>Servicios realizados: {data.servicios}</p>
     </div>
   );
 }

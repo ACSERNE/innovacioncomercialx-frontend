@@ -6,24 +6,22 @@ import FlujoCaja from "../pages/FlujoCaja";
 import Reportes from "../pages/Reportes";
 import PrivateRoute from "./PrivateRoute";
 import Layout from "../layout/Layout";
+import HomePage from "../pages/HomePage";
+import Navbar from "../components/Navbar";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
+      <Navbar />
+
       <Routes>
+        {/* RUTAS PÚBLICAS */}
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<div>Registro (mañana lo hacemos)</div>} />
+        <Route path="/store" element={<div>Tienda (mañana la activamos)</div>} />
 
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Layout>
-                <Dashboard />
-              </Layout>
-            </PrivateRoute>
-          }
-        />
-
+        {/* RUTAS PRIVADAS */}
         <Route
           path="/dashboard"
           element={
@@ -71,4 +69,3 @@ export default function AppRouter() {
     </BrowserRouter>
   );
 }
-
