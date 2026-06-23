@@ -7,9 +7,6 @@ function Home() {
     <section id="home">
       <h1>Bienvenido a ComercialX</h1>
       <p>Tu plataforma para gestión, tienda en línea y cockpit técnico.</p>
-      <p>
-        Inicio | Tienda | Ingresar | Crear cuenta
-      </p>
     </section>
   )
 }
@@ -27,7 +24,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        {/* luego agregamos registro, tienda, cockpit */}
       </Routes>
     </HashRouter>
   )
