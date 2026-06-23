@@ -4,62 +4,41 @@ import { apiPost } from './api'
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+  const [msg, setMsg] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    setError('')
-    setMessage('')
+    setMsg('Procesando...')
 
     try {
-      const data = await apiPost('/auth/login', { email, password })
-      // Ajusta según respuesta real del backend
-      if (data.token) {
-        localStorage.setItem('cx_token', data.token)
-        setMessage('Ingreso exitoso. Token guardado.')
-      } else {
-        setMessage('Login OK, pero sin token en respuesta.')
-      }
+      const res = await apiPost('/auth/login', { correo: email, password })
+      localStorage.setItem('cx_token', res.token)
+      setMsg('Ingreso exitoso')
     } catch (err) {
-      setError(err.message || 'Error al ingresar')
-    } finally {
-      setLoading(false)
+      setMsg('Error: ' + err.message)
     }
   }
 
   return (
-    <section id="login">
-      <h2>Ingresar a ComercialX</h2>
+    <div>
+      <h2>Ingresar</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Correo</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Ingresando...' : 'Ingresar'}
-        </button>
+        <input
+          type="email"
+          placeholder="Correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Ingresar</button>
       </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-    </section>
+      <p>{msg}</p>
+    </div>
   )
 }
 

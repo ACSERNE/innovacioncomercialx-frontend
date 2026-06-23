@@ -1,16 +1,13 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './App.css'
 import Login from './Login'
+import './App.css'
 
 function Home() {
   return (
-    <section id="home">
+    <div>
       <h1>Bienvenido a ComercialX</h1>
-      <p>Tu plataforma para gestión, tienda en línea y cockpit técnico.</p>
-      <p>
-        Inicio | Tienda | Ingresar | Crear cuenta
-      </p>
-    </section>
+      <p>Inicio | Tienda | Ingresar | Crear cuenta</p>
+    </div>
   )
 }
 
@@ -27,7 +24,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        {/* Más rutas se agregan después: tienda, registro, cockpit */}
       </Routes>
     </BrowserRouter>
   )
