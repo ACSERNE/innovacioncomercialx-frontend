@@ -1,19 +1,22 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { HashRouter, Routes, Route, Link } from 'react-router-dom'
 import Login from './Login'
 import './App.css'
 
 function Home() {
   return (
-    <div>
+    <section id="home">
       <h1>Bienvenido a ComercialX</h1>
-      <p>Inicio | Tienda | Ingresar | Crear cuenta</p>
-    </div>
+      <p>Tu plataforma para gestión, tienda en línea y cockpit técnico.</p>
+      <p>
+        Inicio | Tienda | Ingresar | Crear cuenta
+      </p>
+    </section>
   )
 }
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <nav>
         <Link to="/">Inicio</Link> {' | '}
         <Link to="/tienda">Tienda</Link> {' | '}
@@ -24,8 +27,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        {/* luego agregamos registro, tienda, cockpit */}
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
